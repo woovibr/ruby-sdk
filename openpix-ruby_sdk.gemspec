@@ -31,8 +31,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dependencies
+  spec.add_runtime_dependency 'activesupport', '~> 7.0', '>= 7.0.4.3'
+  spec.add_runtime_dependency 'httpx', '~> 0.23', '>= 0.23.2'
+
   spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'rack', '~> 3.0'
   spec.add_development_dependency 'rspec', '~> 3.12'
+  spec.add_development_dependency 'webrick', '~> 1.8'
+  spec.add_development_dependency 'yard', '~> 0.9.34'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
