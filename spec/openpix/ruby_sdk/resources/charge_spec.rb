@@ -20,7 +20,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     expect(subject.create_attributes).to eq(Openpix::RubySdk::Resources::Charge::ATTRS)
   end
 
-  describe 'customer' do
+  context 'customer' do
     context 'without customer' do
       it 'pass validation' do
         expect do
@@ -40,6 +40,13 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     end
 
     context 'with a Customer object' do
+      let(:customer) { Openpix::RubySdk::Resources::Customer.new({ 'name' => 'Nameless' }) }
+
+      it 'pass validation' do
+        expect do
+          subject
+        end.to_not raise_error
+      end
     end
   end
 end
