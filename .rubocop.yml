@@ -5,8 +5,10 @@ Naming/AccessorMethodName:
   Enabled: false
 
 Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
 
 Layout/LineLength:
   Enabled: false
