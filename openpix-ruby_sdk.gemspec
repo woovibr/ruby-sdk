@@ -32,7 +32,8 @@ Gem::Specification.new do |spec|
 
   # Dependencies
   spec.add_runtime_dependency 'activesupport', '~> 7.0', '>= 7.0.4.3'
-  spec.add_runtime_dependency 'httpx', '~> 0.23', '>= 0.23.2'
+  spec.add_runtime_dependency 'faraday', '~> 2.7', '>= 2.7.4'
+  spec.add_runtime_dependency 'faraday-httpclient', '~> 2.0', '>= 2.0.1'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rack', '~> 3.0'
