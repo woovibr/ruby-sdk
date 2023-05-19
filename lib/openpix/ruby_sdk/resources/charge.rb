@@ -27,8 +27,8 @@ module Openpix
 
         # @param params [Hash{String => String, Number, Hash{String, Number}, Array<Hash{String, String}>}] the attributes for creating a Charge
         # @param rest [Hash] more attributes to be merged at the body, use this only for unsupported fields
-        def initialize(params = {}, rest = {})
-          super(ATTRS, params, rest)
+        def initialize(http_client, params = {}, rest = {})
+          super(ATTRS, params, rest, http_client)
         end
 
         # attributes used on POST create method
@@ -38,7 +38,7 @@ module Openpix
 
         # URL for this resource
         def to_url
-          '/charge'
+          'charge'
         end
 
         # validation required for creating this resource
