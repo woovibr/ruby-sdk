@@ -8,6 +8,7 @@ require 'openpix/ruby_sdk/api_response'
 module Openpix
   module RubySdk
     module Resources
+      # Error returned when the required method is not implemented in the class child class
       class NotImplementedError < StandardError
         def initialize(msg: nil, method: 'nil')
           super(msg) if msg.present?
@@ -21,6 +22,7 @@ module Openpix
       class RequestError < StandardError
       end
 
+      # Base class for resources from the API
       class Resource
         def initialize(http_client)
           @http_client = http_client
