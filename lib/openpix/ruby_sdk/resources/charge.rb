@@ -27,8 +27,8 @@ module Openpix
 
         # @param params [Hash{String => String, Number, Hash{String, Number}, Array<Hash{String, String}>}] the attributes for creating a Charge
         # @param rest [Hash] more attributes to be merged at the body, use this only for unsupported fields
-        def initialize(http_client, params = {}, rest = {})
-          super(http_client, ATTRS, params, rest)
+        def init_body(params = {}, rest = {})
+          super(base_attrs: ATTRS, params: params, rest: rest)
         end
 
         # attributes used on POST create method
@@ -41,11 +41,24 @@ module Openpix
           'charge'
         end
 
-        # validation required for creating this resource
-        def validation
-          return if @customer.nil? || @customer.instance_of?(Customer)
+        # Converts its attributes into a hash
+        def to_body
+          body = super
 
-          raise ArgumentError, 'customer must be an instance of Openpix::RubySdk::Resources::Customer'
+          customer_parsed = {}
+          body['customer']&.each do |attr, value|
+            customer_parsed[attr.camelize(:lower).gsub('Id', 'ID')] = value
+          end
+
+          customer_address_parsed = {}
+          body.dig('customer', 'address')&.each do |attr, value|
+            customer_address_parsed[attr.camelize(:lower).gsub('Id', 'ID')] = value
+          end
+
+          body['customer'] = customer_parsed
+          body['customer'] = body['customer'].merge({ 'address' => customer_address_parsed })
+
+          body
         end
 
         # add a new additional_info
