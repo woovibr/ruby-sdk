@@ -12,3 +12,6 @@ Metrics/MethodLength:
 
 Layout/LineLength:
   Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
