@@ -22,10 +22,13 @@ module Openpix
       end
 
       class Resource
-        def initialize(http_client, base_attrs = [], params = {}, rest = {})
+        def initialize(http_client)
+          @http_client = http_client
+        end
+
+        def init_body(base_attrs: [], params: {}, rest: {})
           base_attrs.each { |attr| instance_variable_set("@#{attr}", params[attr]) }
           @rest = rest
-          @http_client = http_client
         end
 
         def to_url
@@ -36,14 +39,10 @@ module Openpix
           raise NotImplementedError.new(method: __method__)
         end
 
-        def validation
-          raise NotImplementedError.new(method: __method__)
-        end
-
         def to_body
           body = {}
 
-          attributes.each do |attr|
+          create_attributes.each do |attr|
             body[attr.camelize(:lower).gsub('Id', 'ID')] = send(attr)
           end
 
