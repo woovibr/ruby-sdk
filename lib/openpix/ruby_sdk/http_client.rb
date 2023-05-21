@@ -12,11 +12,11 @@ module Openpix
 
       attr_accessor :http_client
 
-      def initialize
+      def initialize(auth_token)
         @http_client = Faraday.new(
           url: "#{BASE_URL}#{API_VERSION}",
           headers: {
-            'Authorization' => ENV['OPENPIX_APP_ID']
+            'Authorization' => auth_token
           }
         ) do |f|
           f.request :json
