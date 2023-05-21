@@ -10,9 +10,15 @@ module Openpix
       BASE_URL = 'https://api.woovi.com/api'
       API_VERSION = '/v1'
 
-      attr_accessor :http_client
+      @instance = new
 
-      def initialize(auth_token)
+      private_class_method :new
+
+      class << self
+        attr_reader :instance
+      end
+
+      def initialize_http_client(auth_token)
         @http_client = Faraday.new(
           url: "#{BASE_URL}#{API_VERSION}",
           headers: {
