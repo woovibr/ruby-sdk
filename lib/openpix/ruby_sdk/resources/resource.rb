@@ -2,7 +2,8 @@
 
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
-require 'openpix/ruby_sdk/http_client'
+require 'active_support/core_ext/hash/indifferent_access'
+
 require 'openpix/ruby_sdk/api_response'
 
 module Openpix
@@ -22,6 +23,14 @@ module Openpix
       class RequestError < StandardError
       end
 
+      # Error raised when client is trying to fetch next/previous page without fetching without pagination first
+      class NotFetchedError < StandardError
+      end
+
+      # Error raised when client is trying to fetch next/previous page and page does not exists
+      class PageNotDefinedError < StandardError
+      end
+
       # Base class for resources from the API
       class Resource
         def initialize(http_client)
@@ -29,8 +38,11 @@ module Openpix
         end
 
         def init_body(base_attrs: [], params: {}, rest: {})
+          params = params.with_indifferent_access
           base_attrs.each { |attr| instance_variable_set("@#{attr}", params[attr]) }
           @rest = rest
+
+          self
         end
 
         def to_url
@@ -48,7 +60,7 @@ module Openpix
             body[attr.camelize(:lower).gsub('Id', 'ID')] = send(attr)
           end
 
-          body.merge(@rest)
+          body.merge(@rest).compact
         end
 
         def save(extra_headers: {}, return_existing: false)
@@ -77,6 +89,30 @@ module Openpix
           )
         end
 
+        def fetch(skip: nil, limit: nil, extra_headers: {})
+          set_pagination(skip, limit)
+
+          response = get_request(extra_headers)
+
+          @fetched = response.status == 200
+
+          set_pagination_meta(response.body['pageInfo']) if @fetched
+
+          Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            resource_response: response.body[to_url.pluralize],
+            error_response: response.body['error']
+          )
+        end
+
+        def fetch_next_page!(extra_headers: {})
+          fetch_page!(:next, extra_headers)
+        end
+
+        def fetch_previous_page!(extra_headers: {})
+          fetch_page!(:previous, extra_headers)
+        end
+
         private
 
         def post_request(extra_headers, return_existing)
@@ -85,6 +121,73 @@ module Openpix
             body: to_body,
             headers: extra_headers,
             params: { return_existing: return_existing }
+          )
+        end
+
+        def get_request(extra_headers)
+          @http_client.get(
+            to_url,
+            headers: extra_headers,
+            params: @pagination_params
+          )
+        end
+
+        def set_pagination(skip, limit)
+          @pagination_params = { skip: 0, limit: 100 } if skip.nil? && limit.nil?
+
+          @pagination_params[:skip] = skip if skip
+
+          return unless limit
+
+          @pagination_params[:limit] = limit
+        end
+
+        def set_pagination_meta(pagination_meta)
+          @pagination_meta = {
+            total_count: pagination_meta['totalCount'],
+            has_previous_page: pagination_meta['hasPreviousPage'],
+            has_next_page: pagination_meta['hasNextPage']
+          }
+        end
+
+        def calculate_pagination_params(page_orientation)
+          if page_orientation == :next
+            @pagination_params[:skip] += @pagination_params[:limit]
+          elsif page_orientation == :previous
+            @pagination_params[:skip] -= @pagination_params[:limit]
+          end
+        end
+
+        def fetch_page!(page_orientation, extra_headers = {})
+          unless @fetched
+            raise(
+              NotFetchedError,
+              "#fetch needs to be called before trying to fetch #{page_orientation} page"
+            )
+          end
+
+          unless @pagination_meta["has_#{page_orientation}_page".to_sym]
+            raise(
+              PageNotDefinedError,
+              "There is no #{page_orientation} page defined for the skip: #{@pagination_params[:skip]} and "\
+              "limit: #{@pagination_params[:limit]} params requested"
+            )
+          end
+
+          calculate_pagination_params(page_orientation)
+          response = get_request(extra_headers)
+
+          if response.status != 200
+            raise(
+              RequestError,
+              "Error while fetching #{page_orientation} page, API response: #{response.body['error']}, status: #{response.status}"
+            )
+          end
+
+          set_pagination_meta(response.body['pageInfo'])
+          Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            resource_response: response.body[to_url.pluralize]
           )
         end
       end
