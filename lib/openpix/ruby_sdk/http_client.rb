@@ -38,6 +38,19 @@ module Openpix
           request.body = body
         end
       end
+
+      def get(resource, params: {}, headers: {})
+        @http_client.get(resource) do |request|
+          request.params = params
+          request.headers = request.headers.merge(headers)
+        end
+      end
+
+      def delete(resource, headers: {})
+        @http_client.delete(resource) do |request|
+          request.headers = request.headers.merge(headers)
+        end
+      end
     end
   end
 end
