@@ -46,14 +46,14 @@ module Openpix
         def destroy(id:)
           raise(
             ActionNotImplementedError,
-            'customer does not implement DELETE action'
+            'refund does not implement DELETE action'
           )
         end
 
         def destroy!(id:)
           raise(
             ActionNotImplementedError,
-            'customer does not implement DELETE action'
+            'refund does not implement DELETE action'
           )
         end
         # rubocop:enable Lint/UnusedMethodArgument
