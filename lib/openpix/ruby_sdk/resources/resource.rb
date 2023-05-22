@@ -31,6 +31,10 @@ module Openpix
       class PageNotDefinedError < StandardError
       end
 
+      # Error raised when client is trying to use a Restful action that is not implemented in the current resource
+      class ActionNotImplementedError < StandardError
+      end
+
       # Base class for resources from the API
       class Resource
         def initialize(http_client)
@@ -92,7 +96,7 @@ module Openpix
         def fetch(skip: nil, limit: nil, extra_headers: {})
           set_pagination(skip, limit)
 
-          response = get_request(extra_headers: extra_headers)
+          response = get_request(extra_headers: extra_headers, params: @pagination_params)
 
           @fetched = response.status == 200
 
@@ -109,7 +113,7 @@ module Openpix
         def fetch!(skip: nil, limit: nil, extra_headers: {})
           set_pagination(skip, limit)
 
-          response = get_request(extra_headers: extra_headers)
+          response = get_request(extra_headers: extra_headers, params: @pagination_params)
 
           if response.status != 200
             raise(
@@ -198,11 +202,11 @@ module Openpix
           )
         end
 
-        def get_request(url: to_url, extra_headers: {})
+        def get_request(url: to_url, extra_headers: {}, params: {})
           @http_client.get(
             url,
             headers: extra_headers,
-            params: @pagination_params
+            params: params
           )
         end
 
@@ -256,7 +260,7 @@ module Openpix
           end
 
           calculate_pagination_params(page_orientation)
-          response = get_request(extra_headers: extra_headers)
+          response = get_request(extra_headers: extra_headers, params: @pagination_params)
 
           if response.status != 200
             raise(
