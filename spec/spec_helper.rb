@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'openpix/ruby_sdk'
 require 'pry'
 
 RSpec.configure do |config|
