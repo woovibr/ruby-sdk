@@ -16,6 +16,7 @@ module Openpix
         Payment
         Refund
         Subscription
+        Webhook
       ].freeze
 
       def initialize(auth_token)
