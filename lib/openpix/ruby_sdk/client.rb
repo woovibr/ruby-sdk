@@ -15,6 +15,7 @@ module Openpix
         Customer
         Payment
         Refund
+        Subscription
       ].freeze
 
       def initialize(auth_token)
