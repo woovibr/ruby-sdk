@@ -53,6 +53,10 @@ module Openpix
           raise NotImplementedError.new(method: __method__)
         end
 
+        def to_single_resource
+          to_url
+        end
+
         def create_attributes
           raise NotImplementedError.new(method: __method__)
         end
@@ -76,7 +80,7 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_url],
+            resource_response: response.body[to_single_resource],
             error_response: response.body['error']
           )
         end
@@ -93,7 +97,7 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_url]
+            resource_response: response.body[to_single_resource]
           )
         end
 
@@ -150,7 +154,7 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_url],
+            resource_response: response.body[to_single_resource],
             error_response: response.body['error']
           )
         end
@@ -161,13 +165,13 @@ module Openpix
           if response.status != 200
             raise(
               RequestError,
-              "Error while getting #{to_url} of id = #{id}, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while getting #{to_single_resource} of id = #{id}, API response: #{response.body['error']}, status: #{response.status}"
             )
           end
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_url]
+            resource_response: response.body[to_single_resource]
           )
         end
 
