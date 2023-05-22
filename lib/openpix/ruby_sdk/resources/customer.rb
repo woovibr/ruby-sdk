@@ -17,8 +17,10 @@ module Openpix
 
         attr_accessor(*ATTRS)
 
-        def initialize(params, rest = {})
-          super(ATTRS, params, rest)
+        # @param params [Hash{String => String, Number, Hash{String, Number}, Array<Hash{String, String}>}] the attributes for creating a Charge
+        # @param rest [Hash] more attributes to be merged at the body, use this only for unsupported fields
+        def init_body(params = {}, rest = {})
+          super(base_attrs: ATTRS, params: params, rest: rest)
         end
 
         def create_attributes
@@ -26,10 +28,8 @@ module Openpix
         end
 
         def to_url
-          '/customer'
+          'customer'
         end
-
-        def validation; end
       end
     end
   end
