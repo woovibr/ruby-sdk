@@ -36,6 +36,8 @@ module Openpix
         def to_body
           body = super
 
+          return body unless body['sourceAccountID']
+
           body['sourceAccountId'] = body['sourceAccountID']
 
           body.except('sourceAccountID')

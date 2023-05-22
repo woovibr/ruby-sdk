@@ -64,7 +64,11 @@ module Openpix
             body[attr.camelize(:lower).gsub('Id', 'ID')] = send(attr)
           end
 
-          body.merge(@rest).compact
+          compacted_body = body.compact
+
+          return compacted_body unless @rest
+
+          compacted_body.merge(@rest)
         end
 
         def save(extra_headers: {}, return_existing: false)
