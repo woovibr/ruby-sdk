@@ -27,7 +27,7 @@ module Openpix
 
         # @param params [Hash{String => String, Number, Hash{String, Number}, Array<Hash{String, String}>}] the attributes for creating a Charge
         # @param rest [Hash] more attributes to be merged at the body, use this only for unsupported fields
-        def init_body(params = {}, rest = {})
+        def init_body(params: {}, rest: {})
           super(base_attrs: ATTRS, params: params, rest: rest)
         end
 
