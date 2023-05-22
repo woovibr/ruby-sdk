@@ -14,6 +14,7 @@ module Openpix
         Charge
         Customer
         Payment
+        Refund
       ].freeze
 
       def initialize(auth_token)
