@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require 'openpix/ruby_sdk/http_client'
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
+
+require 'openpix/ruby_sdk/http_client'
+require 'openpix/ruby_sdk/resources'
 
 module Openpix
   module RubySdk
@@ -21,10 +23,12 @@ module Openpix
 
       RESOURCES.each do |resource|
         pluralized_resource_name = resource.downcase.pluralize
-        define_method pluralized_resource_name, do
+        define_method pluralized_resource_name do
+          return instance_variable_get("@#{pluralized_resource_name}") if instance_variable_get("@#{pluralized_resource_name}")
+
           instance_variable_set(
             "@#{pluralized_resource_name}",
-            "Openpix::RubySdk::Resources::#{resource}}".constantize.new(http_client)
+            "Openpix::RubySdk::Resources::#{resource}".constantize.new(@http_client)
           )
         end
       end
