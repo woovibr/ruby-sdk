@@ -13,6 +13,7 @@ module Openpix
       RESOURCES = %w[
         Charge
         Customer
+        Payment
       ].freeze
 
       def initialize(auth_token)
