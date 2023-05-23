@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'active_support'
-require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/hash/indifferent_access'
 
 require 'openpix/ruby_sdk/api_response'
+require 'openpix/ruby_sdk/api_body_formatter'
 
 module Openpix
   module RubySdk
@@ -65,10 +65,10 @@ module Openpix
           body = {}
 
           create_attributes.each do |attr|
-            body[attr.camelize(:lower).gsub('Id', 'ID')] = send(attr)
+            body[Openpix::RubySdk::ApiBodyFormatter.transform_id_pattern(attr)] = send(attr)
           end
 
-          compacted_body = body.compact
+          compacted_body = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body)
 
           return compacted_body unless @rest
 
