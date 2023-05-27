@@ -13,6 +13,10 @@ module Openpix
         @pagination_meta = pagination_meta
         @error_response = error_response
       end
+
+      def success?
+        success
+      end
     end
   end
 end
