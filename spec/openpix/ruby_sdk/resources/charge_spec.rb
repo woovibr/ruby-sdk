@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'openpix/ruby_sdk/resources/charge'
+
 RSpec.describe Openpix::RubySdk::Resources::Charge do
   let(:customer) { nil }
   let(:attrs) do
@@ -10,43 +12,164 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     }
   end
 
-  subject { described_class.new(attrs) }
+  subject { described_class.new(double('http_client')) }
 
   it 'sets its url' do
-    expect(subject.to_url).to eq('/charge')
+    expect(subject.to_url).to eq('charge')
   end
 
   it 'defines its create attributes' do
     expect(subject.create_attributes).to eq(Openpix::RubySdk::Resources::Charge::ATTRS)
   end
 
-  context 'customer' do
+  describe '#init_body' do
+    it 'sets the attrs defined by the ATTRS constant' do
+      subject.init_body(params: attrs)
+
+      expect(subject.correlation_id).to eq(attrs['correlation_id'])
+      expect(subject.value).to eq(attrs['value'])
+      expect(subject.customer).to eq(attrs['customer'])
+      expect(subject.comment).to eq(nil)
+    end
+  end
+
+  describe '#to_body' do
+    before { subject.init_body(params: attrs) }
+
     context 'without customer' do
-      it 'pass validation' do
-        expect do
-          subject
-        end.to_not raise_error
+      let(:expected_body) do
+        {
+          'correlationID' => attrs['correlation_id'],
+          'value' => attrs['value']
+        }
+      end
+
+      it 'parses other fields normally' do
+        expect(subject.to_body).to eq(expected_body)
       end
     end
 
-    context 'with an object that is not a Customer' do
-      let(:customer) { { 'name' => 'Nameless' } }
+    context 'with empty hash customer' do
+      let(:customer) { {} }
+      let(:expected_body) do
+        {
+          'correlationID' => attrs['correlation_id'],
+          'value' => attrs['value']
+        }
+      end
 
-      it 'raises ArgumentError' do
-        expect do
-          subject
-        end.to raise_error(ArgumentError, 'customer must be an instance of Openpix::RubySdk::Resources::Customer')
+      it 'parses other fields normally' do
+        expect(subject.to_body).to eq(expected_body)
       end
     end
 
-    context 'with a Customer object' do
-      let(:customer) { Openpix::RubySdk::Resources::Customer.new({ 'name' => 'Nameless' }) }
-
-      it 'pass validation' do
-        expect do
-          subject
-        end.to_not raise_error
+    context 'with customer' do
+      let(:address) { nil }
+      let(:customer) do
+        {
+          name: 'My Name',
+          tax_id: '44406223412',
+          address: address
+        }
       end
+
+      context 'without address' do
+        let(:expected_body) do
+          {
+            'correlationID' => attrs['correlation_id'],
+            'value' => attrs['value'],
+            'customer' => {
+              'name' => customer[:name],
+              'taxID' => customer[:tax_id]
+            }
+          }
+        end
+
+        it 'parses customer body normally' do
+          expect(subject.to_body).to eq(expected_body)
+        end
+      end
+
+      context 'with empty hash address' do
+        let(:address) { {} }
+        let(:expected_body) do
+          {
+            'correlationID' => attrs['correlation_id'],
+            'value' => attrs['value'],
+            'customer' => {
+              'name' => customer[:name],
+              'taxID' => customer[:tax_id]
+            }
+          }
+        end
+
+        it 'parses customer body normally' do
+          expect(subject.to_body).to eq(expected_body)
+        end
+      end
+
+      context 'with address' do
+        let(:address) do
+          {
+            country: 'Brasil',
+            zipcode: '02145123',
+            street: 'Rua minharua',
+            number: 123
+          }
+        end
+        let(:expected_body) do
+          {
+            'correlationID' => attrs['correlation_id'],
+            'value' => attrs['value'],
+            'customer' => {
+              'name' => customer[:name],
+              'taxID' => customer[:tax_id],
+              'address' => {
+                'country' => address[:country],
+                'zipcode' => address[:zipcode],
+                'street' => address[:street],
+                'number' => address[:number]
+              }
+            }
+          }
+        end
+
+        it 'parses customer and address body normally' do
+          expect(subject.to_body).to eq(expected_body)
+        end
+      end
+    end
+  end
+
+  describe '#add_additional_info' do
+    before { subject.init_body(params: attrs) }
+
+    it 'adds a new key value pair to the additional_info request body' do
+      expect(subject.additional_info).to be_nil
+
+      subject.add_additional_info('venda', 'shiba blocks toy')
+
+      expect(subject.additional_info).to eq([{ 'key' => 'venda', 'value' => 'shiba blocks toy' }])
+    end
+  end
+
+  describe '#set_interests' do
+    before { subject.init_body(params: attrs) }
+
+    it 'sets the interests attr' do
+      subject.set_interests(0.2)
+
+      expect(subject.interests).to eq({ 'value' => 0.2 })
+    end
+  end
+
+  describe '#set_fines' do
+    before { subject.init_body(params: attrs) }
+
+    it 'sets the interests attr' do
+      subject.set_fines(0.2)
+
+      expect(subject.fines).to eq({ 'value' => 0.2 })
     end
   end
 end
