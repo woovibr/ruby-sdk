@@ -226,7 +226,9 @@ module Openpix
         end
 
         def set_pagination(skip, limit)
-          @pagination_params = { skip: 0, limit: 100 } if skip.nil? && limit.nil?
+          @pagination_params = { skip: 0, limit: 100 } if @pagination_params.nil?
+          @pagination_params[:skip] = 0 if @pagination_params[:skip].nil?
+          @pagination_params[:limit] = 100 if @pagination_params[:limit].nil?
 
           @pagination_params[:skip] = skip if skip
 
