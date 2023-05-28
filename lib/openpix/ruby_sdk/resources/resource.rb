@@ -5,6 +5,7 @@ require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/hash/indifferent_access'
 
 require 'openpix/ruby_sdk/api_response'
+require 'openpix/ruby_sdk/api_body_formatter'
 
 module Openpix
   module RubySdk
@@ -65,10 +66,10 @@ module Openpix
           body = {}
 
           create_attributes.each do |attr|
-            body[attr.camelize(:lower).gsub('Id', 'ID')] = send(attr)
+            body[Openpix::RubySdk::ApiBodyFormatter.transform_id_pattern(attr)] = send(attr)
           end
 
-          compacted_body = body.compact
+          compacted_body = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body)
 
           return compacted_body unless @rest
 
@@ -226,7 +227,9 @@ module Openpix
         end
 
         def set_pagination(skip, limit)
-          @pagination_params = { skip: 0, limit: 100 } if skip.nil? && limit.nil?
+          @pagination_params = { skip: 0, limit: 100 } if @pagination_params.nil?
+          @pagination_params[:skip] = 0 if @pagination_params[:skip].nil?
+          @pagination_params[:limit] = 100 if @pagination_params[:limit].nil?
 
           @pagination_params[:skip] = skip if skip
 

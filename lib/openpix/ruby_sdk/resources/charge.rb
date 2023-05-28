@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'openpix/ruby_sdk/resources/resource'
-require 'openpix/ruby_sdk/resources/customer'
+require 'openpix/ruby_sdk/api_body_formatter'
 
 module Openpix
   module RubySdk
@@ -25,7 +25,7 @@ module Openpix
 
         attr_accessor(*ATTRS)
 
-        # @param params [Hash{String => String, Number, Hash{String, Number}, Array<Hash{String, String}>}] the attributes for creating a Charge
+        # @param params [Hash] the attributes for creating a Charge
         # @param rest [Hash] more attributes to be merged at the body, use this only for unsupported fields
         def init_body(params: {}, rest: {})
           super(base_attrs: ATTRS, params: params, rest: rest)
@@ -47,20 +47,11 @@ module Openpix
 
           return body if body['customer'].nil? || body['customer'].empty?
 
-          customer_parsed = {}
-          body['customer'].each do |attr, value|
-            customer_parsed[attr.camelize(:lower).gsub('Id', 'ID')] = value
-          end
-
-          body['customer'] = customer_parsed
+          body['customer'] = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['customer'])
 
           return body if body['customer']['address'].nil? || body['customer']['address'].empty?
 
-          customer_address_parsed = {}
-          body['customer']['address'].each do |attr, value|
-            customer_address_parsed[attr.camelize(:lower).gsub('Id', 'ID')] = value
-          end
-
+          customer_address_parsed = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['customer']['address'])
           body['customer'] = body['customer'].merge({ 'address' => customer_address_parsed })
 
           body
