@@ -7,17 +7,6 @@ require_relative './shared/destroyable_resource'
 require 'openpix/ruby_sdk/resources/charge'
 
 RSpec.describe Openpix::RubySdk::Resources::Charge do
-  let(:customer) { nil }
-  let(:attrs) do
-    {
-      'correlation_id' => '123',
-      'value' => 500,
-      'customer' => customer
-    }
-  end
-
-  subject { described_class.new(double('http_client')) }
-
   savable_params = {
     resource_class: described_class,
     attrs: {
@@ -76,6 +65,17 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     }
   }
   it_behaves_like 'destroyable resource', destroyable_params
+
+  let(:customer) { nil }
+  let(:attrs) do
+    {
+      'correlation_id' => '123',
+      'value' => 500,
+      'customer' => customer
+    }
+  end
+
+  subject { described_class.new(double('http_client')) }
 
   it 'sets its url' do
     expect(subject.to_url).to eq('charge')
