@@ -28,7 +28,7 @@ app_id = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 client = Openpix::RubySdk::Client.new(app_id)
 ```
 ### Using resources
-`Openpix::RubySdk::Client` has access to all resources available through a accessor method with resource name in plural form.
+`Openpix::RubySdk::Client` has access to all resources available through a accessor method with resource name in plural form   
 E.g: Charge -> client.charges (returns the charge resource class with all available methods)
 ```ruby
 # Creating a Charge
@@ -43,9 +43,9 @@ response.success? # should yield true
 response.resource_response # API response for this resource, example bellow \/
 # {
 #   "status" => "ACTIVE",
-#   "value": 100,
-#   "comment": "good",
-#   "correlationID": "9134e286-6f71-427a-bf00-241681624586",
+#   "value" => 100,
+#   "comment" => "good",
+#   "correlationID" => "9134e286-6f71-427a-bf00-241681624586",
 #   ... and so on
 # }
 
@@ -79,16 +79,16 @@ The available resources are:
 - Subscription (subscriptions)
 - Webhook (webhooks)
 ### Handling errors
-All available resource methods have their bang! version, which raises an error whenever something goes wrong so you can properly handle those cases.
-All errors have some helpful message, showing response status and error response from API.
+All available resource methods have their bang! version, which raises an error whenever something goes wrong so you can properly handle those cases   
+All errors have some helpful message, showing response status and error response from API
 
-Error classes are:
-save! -> `Openpix::RubySdk::Resources::RequestError`   
-fetch! -> `Openpix::RubySdk::Resources::RequestError`   
-fetch_next_page! -> `Openpix::RubySdk::Resources::RequestError`, `Openpix::RubySdk::Resources::NotFetchedError`, `Openpix::RubySdk::Resources::PageNotDefinedError`   
-fetch_previous_page! -> `Openpix::RubySdk::Resources::RequestError`, `Openpix::RubySdk::Resources::NotFetchedError`, `Openpix::RubySdk::Resources::PageNotDefinedError`   
-find! -> `Openpix::RubySdk::Resources::RequestError`   
-destroy! -> `Openpix::RubySdk::Resources::RequestError`   
+Error classes are:   
+**save!** -> `Openpix::RubySdk::Resources::RequestError`   
+**fetch!** -> `Openpix::RubySdk::Resources::RequestError`   
+**fetch_next_page!** -> `Openpix::RubySdk::Resources::RequestError`, `Openpix::RubySdk::Resources::NotFetchedError`, `Openpix::RubySdk::Resources::PageNotDefinedError`   
+**fetch_previous_page!** -> `Openpix::RubySdk::Resources::RequestError`, `Openpix::RubySdk::Resources::NotFetchedError`, `Openpix::RubySdk::Resources::PageNotDefinedError`   
+**find!** -> `Openpix::RubySdk::Resources::RequestError`   
+**destroy!** -> `Openpix::RubySdk::Resources::RequestError`   
 
 For the safe version (without bang!) there will be an `error_response` attribute setted in the API response whenever `success?` is false.
 ```ruby
