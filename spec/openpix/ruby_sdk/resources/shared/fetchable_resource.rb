@@ -3,6 +3,8 @@
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
 
+require 'ostruct'
+
 RSpec.shared_examples 'fetchable resource' do |params|
   let(:mocked_http_client) { double('http_client') }
   let(:resource) { params[:resource_class].new(mocked_http_client) }
