@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'openpix/ruby_sdk/resources/resource'
+require 'openpix/ruby_sdk/api_body_formatter'
 
 module Openpix
   module RubySdk
@@ -36,12 +37,7 @@ module Openpix
 
           return body if body['address'].nil? || body['address'].empty?
 
-          address_parsed = {}
-          body['address']&.each do |attr, value|
-            address_parsed[attr.camelize(:lower).gsub('Id', 'ID')] = value
-          end
-
-          body['address'] = address_parsed
+          body['address'] = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['address'])
 
           body
         end
