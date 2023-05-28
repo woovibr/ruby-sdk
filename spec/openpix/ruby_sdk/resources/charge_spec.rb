@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './shared/savable_resource'
+require_relative './shared/fetchable_resource'
 require 'openpix/ruby_sdk/resources/charge'
 
 RSpec.describe Openpix::RubySdk::Resources::Charge do
@@ -33,6 +34,23 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     }
   }
   it_behaves_like 'savable resource', savable_params
+
+  fetchable_params = {
+    resource_class: described_class,
+    body_response: {
+      'charges' => [
+        {
+          'status' => 'ACTIVE',
+          'value' => 500,
+          'correlationID' => '123'
+        }
+      ]
+    },
+    error_response: {
+      'error' => 'error from API charge'
+    }
+  }
+  it_behaves_like 'fetchable resource', fetchable_params
 
   it 'sets its url' do
     expect(subject.to_url).to eq('charge')
