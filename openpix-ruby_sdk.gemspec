@@ -27,13 +27,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dependencies
-  spec.add_runtime_dependency 'activesupport', '~> 7.0', '>= 7.0.4.3'
+  spec.add_runtime_dependency 'activesupport', '~> 6.1'
   spec.add_runtime_dependency 'faraday', '~> 2.7', '>= 2.7.4'
   spec.add_runtime_dependency 'faraday-httpclient', '~> 2.0', '>= 2.0.1'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rack', '~> 3.0'
   spec.add_development_dependency 'rspec', '~> 3.12'
+  spec.add_development_dependency 'rubocop', '~> 1.50'
   spec.add_development_dependency 'webrick', '~> 1.8'
   spec.add_development_dependency 'yard', '~> 0.9.34'
 end
