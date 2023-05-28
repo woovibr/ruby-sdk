@@ -3,6 +3,7 @@
 require_relative './shared/savable_resource'
 require_relative './shared/fetchable_resource'
 require_relative './shared/findable_resource'
+require_relative './shared/destroyable_resource'
 require 'openpix/ruby_sdk/resources/charge'
 
 RSpec.describe Openpix::RubySdk::Resources::Charge do
@@ -67,6 +68,14 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     }
   }
   it_behaves_like 'findable resource', findable_params
+
+  destroyable_params = {
+    resource_class: described_class,
+    error_response: {
+      'error' => 'error from API charge'
+    }
+  }
+  it_behaves_like 'destroyable resource', destroyable_params
 
   it 'sets its url' do
     expect(subject.to_url).to eq('charge')
