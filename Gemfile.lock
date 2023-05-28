@@ -39,6 +39,7 @@ GEM
       method_source (~> 1.0)
     rack (3.0.7)
     rainbow (3.1.1)
+    rake (13.0.6)
     regexp_parser (2.8.0)
     rexml (3.2.5)
     rspec (3.12.0)
@@ -82,6 +83,7 @@ DEPENDENCIES
   openpix-ruby_sdk!
   pry
   rack (~> 3.0)
+  rake
   rspec (~> 3.12)
   rubocop (~> 1.50)
   webrick (~> 1.8)
