@@ -102,14 +102,15 @@ module Openpix
           )
         end
 
-        def fetch(skip: nil, limit: nil, extra_headers: {})
+        def fetch(skip: nil, limit: nil, extra_headers: {}, params: {})
           set_pagination(skip, limit)
 
-          response = get_request(extra_headers: extra_headers, params: @pagination_params)
+          response = get_request(extra_headers: extra_headers, params: @pagination_params.merge(params))
 
           @fetched = response.status == 200
 
           set_pagination_meta(response.body['pageInfo']) if @fetched
+          @last_fetched_params = params if @fetched && !params.empty?
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
@@ -119,10 +120,10 @@ module Openpix
           )
         end
 
-        def fetch!(skip: nil, limit: nil, extra_headers: {})
+        def fetch!(skip: nil, limit: nil, extra_headers: {}, params: {})
           set_pagination(skip, limit)
 
-          response = get_request(extra_headers: extra_headers, params: @pagination_params)
+          response = get_request(extra_headers: extra_headers, params: @pagination_params.merge(params))
 
           if response.status != 200
             raise(
@@ -132,7 +133,7 @@ module Openpix
           end
 
           @fetched = true
-
+          @last_fetched_params = params unless params.empty?
           set_pagination_meta(response.body['pageInfo'])
 
           Openpix::RubySdk::ApiResponse.new(
@@ -271,7 +272,12 @@ module Openpix
           end
 
           calculate_pagination_params(page_orientation)
-          response = get_request(extra_headers: extra_headers, params: @pagination_params)
+          request_params = if @last_fetched_params.nil?
+                             @pagination_params
+                           else
+                             @pagination_params.merge(@last_fetched_params)
+                           end
+          response = get_request(extra_headers: extra_headers, params: request_params)
 
           if response.status != 200
             raise(
