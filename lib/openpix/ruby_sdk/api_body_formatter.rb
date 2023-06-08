@@ -5,6 +5,7 @@ require 'active_support/core_ext/string/inflections'
 
 module Openpix
   module RubySdk
+    # Helper class to format body params before request
     class ApiBodyFormatter
       class << self
         def format_entity_param(entity)

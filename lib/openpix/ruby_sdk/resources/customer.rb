@@ -6,6 +6,7 @@ require 'openpix/ruby_sdk/api_body_formatter'
 module Openpix
   module RubySdk
     module Resources
+      # Make API operations on Customer resource
       class Customer < Resource
         ATTRS = %w[
           name

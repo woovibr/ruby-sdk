@@ -5,6 +5,7 @@ require 'openpix/ruby_sdk/resources/resource'
 module Openpix
   module RubySdk
     module Resources
+      # Make API operations on Webhook resource
       class Webhook < Resource
         ATTRS = %w[
           name

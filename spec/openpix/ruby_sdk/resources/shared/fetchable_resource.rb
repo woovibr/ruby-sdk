@@ -3,11 +3,16 @@
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
 
-require 'ostruct'
-
 RSpec.shared_examples 'fetchable resource' do |params|
   let(:mocked_http_client) { double('http_client') }
   let(:resource) { params[:resource_class].new(mocked_http_client) }
+  let(:request_response) do
+    Struct.new(:status, :body) do
+      def initialize(status:, body: {})
+        super(status, body)
+      end
+    end
+  end
 
   describe '#fetch' do
     it 'fetches resources through http_client get method' do
@@ -15,7 +20,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
         resource.to_url,
         headers: {},
         params: { skip: 0, limit: 100 }
-      ).and_return OpenStruct.new(
+      ).and_return request_response.new(
         status: 200,
         body: {
           'pageInfo' => {
@@ -38,7 +43,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
           resource.to_url,
           headers: {},
           params: { skip: 0, limit: 100 }
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 400,
           body: params[:error_response]
         )
@@ -57,7 +62,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
         resource.to_url,
         headers: {},
         params: { skip: 0, limit: 100 }
-      ).and_return OpenStruct.new(
+      ).and_return request_response.new(
         status: 200,
         body: {
           'pageInfo' => {
@@ -80,7 +85,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
           resource.to_url,
           headers: {},
           params: { skip: 0, limit: 100 }
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 400,
           body: params[:error_response]
         )
@@ -98,7 +103,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
           resource.to_url,
           headers: {},
           params: { skip: 0, limit: limit }
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 200,
           body: {
             'pageInfo' => {
@@ -120,7 +125,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
             resource.to_url,
             headers: {},
             params: { skip: limit, limit: limit }
-          ).and_return OpenStruct.new(
+          ).and_return request_response.new(
             status: 200,
             body: {
               'pageInfo' => {
@@ -163,7 +168,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
           resource.to_url,
           headers: {},
           params: { skip: skip, limit: limit }
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 200,
           body: {
             'pageInfo' => {
@@ -185,7 +190,7 @@ RSpec.shared_examples 'fetchable resource' do |params|
             resource.to_url,
             headers: {},
             params: { skip: (skip - limit), limit: limit }
-          ).and_return OpenStruct.new(
+          ).and_return request_response.new(
             status: 200,
             body: {
               'pageInfo' => {

@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 RSpec.shared_examples 'findable resource' do |params|
   let(:mocked_http_client) { double('http_client') }
   let(:resource) { params[:resource_class].new(mocked_http_client) }
   let(:id) { 'a-id@' }
   let(:encoded_url) { "#{resource.to_url}/#{URI.encode_www_form_component(id)}" }
+  let(:request_response) do
+    Struct.new(:status, :body) do
+      def initialize(status:, body: {})
+        super(status, body)
+      end
+    end
+  end
 
   describe '#find' do
     it 'finds the resource through http_client get method' do
@@ -14,7 +19,7 @@ RSpec.shared_examples 'findable resource' do |params|
         encoded_url,
         headers: {},
         params: {}
-      ).and_return OpenStruct.new(
+      ).and_return request_response.new(
         status: 200,
         body: params[:body_response]
       )
@@ -31,7 +36,7 @@ RSpec.shared_examples 'findable resource' do |params|
           encoded_url,
           headers: {},
           params: {}
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 400,
           body: params[:error_response]
         )
@@ -50,7 +55,7 @@ RSpec.shared_examples 'findable resource' do |params|
         encoded_url,
         headers: {},
         params: {}
-      ).and_return OpenStruct.new(
+      ).and_return request_response.new(
         status: 200,
         body: params[:body_response]
       )
@@ -67,7 +72,7 @@ RSpec.shared_examples 'findable resource' do |params|
           encoded_url,
           headers: {},
           params: {}
-        ).and_return OpenStruct.new(
+        ).and_return request_response.new(
           status: 400,
           body: params[:error_response]
         )

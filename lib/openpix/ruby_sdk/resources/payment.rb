@@ -8,6 +8,7 @@ require 'openpix/ruby_sdk/resources/resource'
 module Openpix
   module RubySdk
     module Resources
+      # Make API operations on Payment resource
       class Payment < Resource
         ATTRS = %w[
           value
