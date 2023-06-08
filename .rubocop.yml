@@ -1,5 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.6
+  NewCops: enable
 
 Naming/AccessorMethodName:
   Enabled: false
@@ -23,4 +24,7 @@ Metrics/CyclomaticComplexity:
   Enabled: false
 
 Metrics/PerceivedComplexity:
+  Enabled: false
+
+Gemspec/DevelopmentDependencies:
   Enabled: false
