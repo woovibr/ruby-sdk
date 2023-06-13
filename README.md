@@ -13,14 +13,14 @@ gem 'openpix-ruby_sdk', '~> 0.1.0'
 
 To manually install `openpix-ruby_sdk` via Rubygems simply:
 ```shell
-gem install openpix-ruby_sdk -v 0.1.0
+gem install openpix-ruby_sdk -v 1.0.0
 ```
 
 ## Usage
-Main class `openpix/rubysdk/client` is your entrypoint to the endpoints.
+Main class `openpix/ruby_sdk/client` is your entrypoint to the endpoints.
 ### Authenticating client
 ```ruby
-require 'openpix/rubysdk'
+require 'openpix/ruby_sdk'
 
 # Your AppID from https://app.woovi.com/home/applications/tab/list
 app_id = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
