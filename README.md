@@ -28,7 +28,7 @@ app_id = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 client = Openpix::RubySdk::Client.new(app_id)
 ```
 ### Using resources
-`Openpix::RubySdk::Client` has access to all resources available through a accessor method with resource name in plural form
+`Openpix::RubySdk::Client` has access to all resources available through a accessor method with resource name in plural form   
 E.g: Charge -> client.charges (returns the charge resource class with all available methods)
 ```ruby
 # Creating a Charge
