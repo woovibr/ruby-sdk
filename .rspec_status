@@ -171,4 +171,6 @@ example_id                                                        | status | run
 ./spec/openpix/ruby_sdk/resources/webhook_spec.rb[1:6]            | passed | 0.0018 seconds  |
 ./spec/openpix/ruby_sdk/resources/webhook_spec.rb[1:7:1]          | passed | 0.00015 seconds |
 ./spec/openpix/ruby_sdk/resources/webhook_spec.rb[1:8:1]          | passed | 0.0002 seconds  |
+./spec/openpix/ruby_sdk/utils_spec.rb[1:1:1]                      | passed | 0.00132 seconds |
+./spec/openpix/ruby_sdk/utils_spec.rb[1:1:2:1]                    | passed | 0.00033 seconds |
 ./spec/openpix/ruby_sdk_spec.rb[1:1]                              | passed | 0.00167 seconds |
