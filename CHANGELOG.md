@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [1.1.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.0.0...v1.1.0) (2023-06-25)
+
+
+### Features
+
+* add utility method for webhook payload verify ([#19](https://github.com/Open-Pix/ruby-sdk/issues/19)) ([1aaf042](https://github.com/Open-Pix/ruby-sdk/commit/1aaf042144951df2a0f9f84c79942c17670f7bef))
+
 ## 1.0.0 (2023-06-13)
 
 
