@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative './shared/savable_resource'
-require_relative './shared/fetchable_resource'
-require_relative './shared/destroyable_resource'
-require_relative './shared/not_findable_resource'
+require_relative 'shared/savable_resource'
+require_relative 'shared/fetchable_resource'
+require_relative 'shared/destroyable_resource'
+require_relative 'shared/not_findable_resource'
 require 'openpix/ruby_sdk/resources/webhook'
 
 RSpec.describe Openpix::RubySdk::Resources::Webhook do

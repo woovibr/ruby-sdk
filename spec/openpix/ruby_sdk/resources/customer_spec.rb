@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative './shared/savable_resource'
-require_relative './shared/fetchable_resource'
-require_relative './shared/findable_resource'
-require_relative './shared/not_destroyable_resource'
+require_relative 'shared/savable_resource'
+require_relative 'shared/fetchable_resource'
+require_relative 'shared/findable_resource'
+require_relative 'shared/not_destroyable_resource'
 require 'openpix/ruby_sdk/resources/customer'
 
 RSpec.describe Openpix::RubySdk::Resources::Customer do
