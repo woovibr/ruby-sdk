@@ -22,7 +22,7 @@ Main class `openpix/ruby_sdk/client` is your entrypoint to the endpoints.
 ```ruby
 require 'openpix/ruby_sdk'
 
-# Your AppID from https://app.woovi.com/home/applications/tab/list
+# Your AppID from https://app.openpix.com/home/applications/tab/list
 app_id = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 
 client = Openpix::RubySdk::Client.new(app_id)
