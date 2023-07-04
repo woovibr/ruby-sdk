@@ -4,18 +4,37 @@ module Openpix
   module RubySdk
     # An Object representing the response from a call to Woovi API
     class ApiResponse
-      attr_reader :success, :resource_response, :pagination_meta, :error_response, :status
+      attr_reader :success, :body, :status
 
-      def initialize(status:, resource_response: nil, error_response: nil, pagination_meta: {})
+      def initialize(status:, body:, single_resource: nil, collection_resource: nil)
         @success = status == 200
         @status = status
-        @resource_response = resource_response
-        @pagination_meta = pagination_meta
-        @error_response = error_response
+        @body = body
+        @single_resource = single_resource
+        @collection_resource = collection_resource
       end
 
       def success?
         success
+      end
+
+      def resource_response
+        return @body[@single_resource] if @single_resource
+
+        @body[@collection_resource]
+      end
+
+      def error_response
+        return @body['error'] if @body['error']
+        return @body['errors'].first['message'] if @body['errors'] && !@body['errors'].empty?
+
+        ''
+      end
+
+      def pagination_meta
+        return @body['pageInfo'] if @body['pageInfo']
+
+        {}
       end
     end
   end
