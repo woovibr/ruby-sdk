@@ -18,9 +18,9 @@ module Openpix
         attr_reader :instance
       end
 
-      def initialize_http_client(auth_token)
+      def initialize_http_client(auth_token, api_url = BASE_URL, api_version = API_VERSION)
         @http_client = Faraday.new(
-          url: "#{BASE_URL}#{API_VERSION}",
+          url: "#{api_url}#{api_version}",
           headers: {
             'Authorization' => auth_token
           }

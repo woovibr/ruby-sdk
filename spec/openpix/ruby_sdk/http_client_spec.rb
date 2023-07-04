@@ -23,6 +23,19 @@ RSpec.describe Openpix::RubySdk::HttpClient do
 
       described_class.instance.initialize_http_client(auth_token)
     end
+
+    context 'with custom api url and version' do
+      let(:base_url) { 'https://api.com' }
+      let(:version) { 'v2' }
+      let(:expected_url) { "#{base_url}#{version}" }
+      let(:expected_headers) { { 'Authorization' => auth_token } }
+
+      it 'initializes Faraday client with appropriate url and headers' do
+        expect(Faraday).to receive(:new).with(url: expected_url, headers: expected_headers)
+
+        described_class.instance.initialize_http_client(auth_token, base_url, version)
+      end
+    end
   end
 
   describe '#post' do
