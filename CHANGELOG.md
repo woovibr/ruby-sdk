@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [1.1.1](https://github.com/Open-Pix/ruby-sdk/compare/v1.1.0...v1.1.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* Fix not authorized response parsing ([#24](https://github.com/Open-Pix/ruby-sdk/issues/24)) ([00f508d](https://github.com/Open-Pix/ruby-sdk/commit/00f508d4463b25b774ca4c0449c3cd050fdad549))
+
 ## [1.1.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.0.0...v1.1.0) (2023-06-25)
 
 
