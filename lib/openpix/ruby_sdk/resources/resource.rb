@@ -58,6 +58,10 @@ module Openpix
           to_url
         end
 
+        def to_collection_resource
+          to_url.pluralize
+        end
+
         def create_attributes
           raise NotImplementedError.new(method: __method__)
         end
@@ -81,66 +85,69 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_single_resource],
-            error_response: response.body['error']
+            body: response.body,
+            single_resource: to_single_resource
           )
         end
 
         def save!(extra_headers: {}, return_existing: false)
           response = post_request(extra_headers, return_existing)
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            single_resource: to_single_resource
+          )
 
           if response.status != 200
             raise(
               RequestError,
-              "Error while saving, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while saving, API response: #{api_response.error_response}, status: #{api_response.status}"
             )
           end
 
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status,
-            resource_response: response.body[to_single_resource]
-          )
+          api_response
         end
 
         def fetch(skip: nil, limit: nil, extra_headers: {}, params: {})
           set_pagination(skip, limit)
 
           response = get_request(extra_headers: extra_headers, params: @pagination_params.merge(params))
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            collection_resource: to_collection_resource
+          )
 
-          @fetched = response.status == 200
+          @fetched = api_response.status == 200
 
-          set_pagination_meta(response.body['pageInfo']) if @fetched
+          set_pagination_meta(api_response.pagination_meta) if @fetched
           @last_fetched_params = params if @fetched && !params.empty?
 
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status,
-            resource_response: response.body[to_url.pluralize],
-            pagination_meta: response.body['pageInfo'],
-            error_response: response.body['error']
-          )
+          api_response
         end
 
         def fetch!(skip: nil, limit: nil, extra_headers: {}, params: {})
           set_pagination(skip, limit)
 
           response = get_request(extra_headers: extra_headers, params: @pagination_params.merge(params))
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            collection_resource: to_collection_resource
+          )
 
           if response.status != 200
             raise(
               RequestError,
-              "Error while fetching, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while fetching, API response: #{api_response.error_response}, status: #{api_response.status}"
             )
           end
 
           @fetched = true
           @last_fetched_params = params unless params.empty?
-          set_pagination_meta(response.body['pageInfo'])
+          set_pagination_meta(api_response.pagination_meta)
 
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status,
-            pagination_meta: response.body['pageInfo'],
-            resource_response: response.body[to_url.pluralize]
-          )
+          api_response
         end
 
         def fetch_next_page!(extra_headers: {})
@@ -156,25 +163,27 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            resource_response: response.body[to_single_resource],
-            error_response: response.body['error']
+            body: response.body,
+            single_resource: to_single_resource
           )
         end
 
         def find!(id:, extra_headers: {})
           response = get_request(url: encoded_url(id), extra_headers: extra_headers)
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            single_resource: to_single_resource
+          )
 
           if response.status != 200
             raise(
               RequestError,
-              "Error while getting #{to_single_resource} of id = #{id}, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while getting #{to_single_resource} of id = #{id}, API response: #{api_response.error_response}, status: #{api_response.status}"
             )
           end
 
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status,
-            resource_response: response.body[to_single_resource]
-          )
+          api_response
         end
 
         def destroy(id:, extra_headers: {})
@@ -182,23 +191,27 @@ module Openpix
 
           Openpix::RubySdk::ApiResponse.new(
             status: response.status,
-            error_response: response.body['error']
+            body: response.body,
+            single_resource: to_single_resource
           )
         end
 
         def destroy!(id:, extra_headers: {})
           response = delete_request(url: encoded_url(id), extra_headers: extra_headers)
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            single_resource: to_single_resource
+          )
 
           if response.status != 200
             raise(
               RequestError,
-              "Error while deleting #{to_url} of id = #{id}, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while deleting #{to_url} of id = #{id}, API response: #{api_response.error_response}, status: #{api_response.status}"
             )
           end
 
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status
-          )
+          api_response
         end
 
         private
@@ -272,26 +285,29 @@ module Openpix
           end
 
           calculate_pagination_params(page_orientation)
+
           request_params = if @last_fetched_params.nil?
                              @pagination_params
                            else
                              @pagination_params.merge(@last_fetched_params)
                            end
           response = get_request(extra_headers: extra_headers, params: request_params)
+          api_response = Openpix::RubySdk::ApiResponse.new(
+            status: response.status,
+            body: response.body,
+            collection_resource: to_collection_resource
+          )
 
           if response.status != 200
             raise(
               RequestError,
-              "Error while fetching #{page_orientation} page, API response: #{response.body['error']}, status: #{response.status}"
+              "Error while fetching #{page_orientation} page, API response: #{api_response.error_response}, status: #{api_response.status}"
             )
           end
 
-          set_pagination_meta(response.body['pageInfo'])
-          Openpix::RubySdk::ApiResponse.new(
-            status: response.status,
-            pagination_meta: response.body['pageInfo'],
-            resource_response: response.body[to_url.pluralize]
-          )
+          set_pagination_meta(api_response.pagination_meta)
+
+          api_response
         end
 
         def encoded_url(id)
