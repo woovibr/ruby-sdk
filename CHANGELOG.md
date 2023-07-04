@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [1.2.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.1.1...v1.2.0) (2023-07-04)
+
+
+### Features
+
+* add ability to accept custom api url and version ([#26](https://github.com/Open-Pix/ruby-sdk/issues/26)) ([cae73ef](https://github.com/Open-Pix/ruby-sdk/commit/cae73ef01bd474e27bcd5246ff3b374f9bfd76e1))
+
 ## [1.1.1](https://github.com/Open-Pix/ruby-sdk/compare/v1.1.0...v1.1.1) (2023-07-04)
 
 
