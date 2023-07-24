@@ -14,7 +14,7 @@ RSpec.describe Openpix::RubySdk::Resources::Webhook do
       'event' => 'OPENPIX:CHARGE_CREATED',
       'url' => 'https://mycompany.com.br/webhook',
       'authorization' => 'openpix',
-      'is_active' => false
+      'isActive' => false
     },
     body_response: {
       'webhook' => {
@@ -72,7 +72,7 @@ RSpec.describe Openpix::RubySdk::Resources::Webhook do
       'event' => 'OPENPIX:CHARGE_CREATED',
       'url' => 'https://mycompany.com.br/webhook',
       'authorization' => 'openpix',
-      'is_active' => false
+      'isActive' => false
     }
   end
 
@@ -94,7 +94,7 @@ RSpec.describe Openpix::RubySdk::Resources::Webhook do
       expect(subject.event).to eq(attrs['event'])
       expect(subject.url).to eq(attrs['url'])
       expect(subject.authorization).to eq(attrs['authorization'])
-      expect(subject.is_active).to eq(attrs['is_active'])
+      expect(subject.isActive).to eq(attrs['isActive'])
     end
   end
 
@@ -107,7 +107,7 @@ RSpec.describe Openpix::RubySdk::Resources::Webhook do
           'name' => attrs['name'],
           'url' => attrs['url'],
           'authorization' => attrs['authorization'],
-          'isActive' => attrs['is_active'],
+          'isActive' => attrs['isActive'],
           'event' => attrs['event']
         }
       }

@@ -12,8 +12,8 @@ module Openpix
       class Refund < Resource
         ATTRS = %w[
           value
-          transaction_end_to_end_id
-          correlation_id
+          transactionEndToEndId
+          correlationID
           comment
         ].freeze
 
@@ -31,16 +31,6 @@ module Openpix
 
         def to_url
           'refund'
-        end
-
-        def to_body
-          body = super
-
-          return body unless body['transactionEndToEndID']
-
-          body['transactionEndToEndId'] = body['transactionEndToEndID']
-
-          body.except('transactionEndToEndID')
         end
 
         # rubocop:disable Lint/UnusedMethodArgument

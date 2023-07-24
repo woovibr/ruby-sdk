@@ -12,10 +12,10 @@ module Openpix
       class Payment < Resource
         ATTRS = %w[
           value
-          destination_alias
-          correlation_id
+          destinationAlias
+          correlationID
           comment
-          source_account_id
+          sourceAccountId
         ].freeze
 
         attr_accessor(*ATTRS)
@@ -32,16 +32,6 @@ module Openpix
 
         def to_url
           'payment'
-        end
-
-        def to_body
-          body = super
-
-          return body unless body['sourceAccountID']
-
-          body['sourceAccountId'] = body['sourceAccountID']
-
-          body.except('sourceAccountID')
         end
 
         # rubocop:disable Lint/UnusedMethodArgument

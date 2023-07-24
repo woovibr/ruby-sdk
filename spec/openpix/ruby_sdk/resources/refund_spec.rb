@@ -11,8 +11,8 @@ RSpec.describe Openpix::RubySdk::Resources::Refund do
     resource_class: described_class,
     attrs: {
       'value' => 4000,
-      'correlation_id' => '1234',
-      'transaction_end_to_end_id' => '123'
+      'correlationID' => '1234',
+      'transactionEndToEndId' => '123'
     },
     body_response: {
       'refund' => {
@@ -67,12 +67,12 @@ RSpec.describe Openpix::RubySdk::Resources::Refund do
 
   it_behaves_like 'not destroyable resource', described_class
 
-  let(:transaction_end_to_end_id) { nil }
+  let(:transactionEndToEndId) { nil }
   let(:attrs) do
     {
       'value' => 4000,
-      'correlation_id' => '1234',
-      'transaction_end_to_end_id' => transaction_end_to_end_id
+      'correlationID' => '1234',
+      'transactionEndToEndId' => transactionEndToEndId
     }
   end
 
@@ -91,8 +91,8 @@ RSpec.describe Openpix::RubySdk::Resources::Refund do
       subject.init_body(params: attrs)
 
       expect(subject.value).to eq(attrs['value'])
-      expect(subject.correlation_id).to eq(attrs['correlation_id'])
-      expect(subject.transaction_end_to_end_id).to eq(transaction_end_to_end_id)
+      expect(subject.correlationID).to eq(attrs['correlationID'])
+      expect(subject.transactionEndToEndId).to eq(transactionEndToEndId)
       expect(subject.comment).to eq(nil)
     end
   end
@@ -100,11 +100,11 @@ RSpec.describe Openpix::RubySdk::Resources::Refund do
   describe '#to_body' do
     before { subject.init_body(params: attrs) }
 
-    context 'without transaction_end_to_end_id' do
+    context 'without transactionEndToEndId' do
       let(:expected_body) do
         {
           'value' => attrs['value'],
-          'correlationID' => attrs['correlation_id']
+          'correlationID' => attrs['correlationID']
         }
       end
 
@@ -113,17 +113,17 @@ RSpec.describe Openpix::RubySdk::Resources::Refund do
       end
     end
 
-    context 'with transaction_end_to_end_id' do
-      let(:transaction_end_to_end_id) { '123' }
+    context 'with transactionEndToEndId' do
+      let(:transactionEndToEndId) { '123' }
       let(:expected_body) do
         {
           'value' => attrs['value'],
-          'correlationID' => attrs['correlation_id'],
-          'transactionEndToEndId' => attrs['transaction_end_to_end_id']
+          'correlationID' => attrs['correlationID'],
+          'transactionEndToEndId' => attrs['transactionEndToEndId']
         }
       end
 
-      it 'parses transaction_end_to_end_id as expected' do
+      it 'parses transactionEndToEndId as expected' do
         expect(subject.to_body).to eq(expected_body)
       end
     end
