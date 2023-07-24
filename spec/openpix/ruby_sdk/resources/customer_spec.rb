@@ -11,7 +11,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
     resource_class: described_class,
     attrs: {
       'name' => 'My Name',
-      'tax_id' => '99812628000159'
+      'taxID' => '99812628000159'
     },
     body_response: {
       'customer' => {
@@ -70,7 +70,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
   let(:attrs) do
     {
       'name' => 'My Name',
-      'tax_id' => '99812628000159',
+      'taxID' => '99812628000159',
       'address' => address
     }
   end
@@ -90,7 +90,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
       subject.init_body(params: attrs)
 
       expect(subject.name).to eq(attrs['name'])
-      expect(subject.tax_id).to eq(attrs['tax_id'])
+      expect(subject.taxID).to eq(attrs['taxID'])
       expect(subject.email).to eq(nil)
     end
   end
@@ -102,7 +102,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
       let(:expected_body) do
         {
           'name' => attrs['name'],
-          'taxID' => attrs['tax_id']
+          'taxID' => attrs['taxID']
         }
       end
 
@@ -116,7 +116,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
       let(:expected_body) do
         {
           'name' => attrs['name'],
-          'taxID' => attrs['tax_id']
+          'taxID' => attrs['taxID']
         }
       end
 
@@ -137,7 +137,7 @@ RSpec.describe Openpix::RubySdk::Resources::Customer do
       let(:expected_body) do
         {
           'name' => attrs['name'],
-          'taxID' => attrs['tax_id'],
+          'taxID' => attrs['taxID'],
           'address' => {
             'country' => address[:country],
             'zipcode' => address[:zipcode],
