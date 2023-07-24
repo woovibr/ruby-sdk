@@ -12,7 +12,7 @@ module Openpix
           formatted_entity = {}
 
           entity.each do |attr, value|
-            formatted_entity[transform_id_pattern(attr)] = value
+            formatted_entity[attr] = value
           end
 
           remove_empty_values(formatted_entity)
@@ -22,10 +22,6 @@ module Openpix
           entity.compact.reject do |_key, value|
             value.empty? if value.respond_to?(:empty?)
           end
-        end
-
-        def transform_id_pattern(attr_key)
-          attr_key.camelize(:lower).gsub('Id', 'ID')
         end
       end
     end
