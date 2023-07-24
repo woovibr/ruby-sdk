@@ -31,3 +31,6 @@ Gemspec/DevelopmentDependencies:
 
 Gemspec/RequireMFA:
   Enabled: false
+
+Naming/VariableName:
+  Enabled: false
