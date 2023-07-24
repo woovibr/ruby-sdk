@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [2.0.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.2.0...v2.0.0) (2023-07-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Refactor resources params to reflect better API payload structure ([#29](https://github.com/Open-Pix/ruby-sdk/issues/29))
+
+### Bug Fixes
+
+* Refactor resources params to reflect better API payload structure ([#29](https://github.com/Open-Pix/ruby-sdk/issues/29)) ([c03692a](https://github.com/Open-Pix/ruby-sdk/commit/c03692acc02e83d66f3884a1d49d03941bc8a221))
+
 ## [1.2.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.1.1...v1.2.0) (2023-07-04)
 
 
