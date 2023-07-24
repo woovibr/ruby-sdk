@@ -13,7 +13,7 @@ RSpec.describe Openpix::RubySdk::Resources::Subscription do
       'value' => 4000,
       'customer' => {
         'name' => 'Customer Name',
-        'tax_id' => '31324227036'
+        'taxID' => '31324227036'
       }
     },
     body_response: {
@@ -66,7 +66,7 @@ RSpec.describe Openpix::RubySdk::Resources::Subscription do
       'value' => 4000,
       'customer' => {
         'name' => 'Customer Name',
-        'tax_id' => '31324227036'
+        'taxID' => '31324227036'
       }
     }
   end
@@ -87,7 +87,7 @@ RSpec.describe Openpix::RubySdk::Resources::Subscription do
 
       expect(subject.value).to eq(attrs['value'])
       expect(subject.customer).to eq(attrs['customer'])
-      expect(subject.day_generate_charge).to eq(nil)
+      expect(subject.dayGenerateCharge).to eq(nil)
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.describe Openpix::RubySdk::Resources::Subscription do
         'value' => attrs['value'],
         'customer' => {
           'name' => attrs['customer']['name'],
-          'taxID' => attrs['customer']['tax_id']
+          'taxID' => attrs['customer']['taxID']
         }
       }
     end

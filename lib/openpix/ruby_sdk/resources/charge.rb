@@ -9,18 +9,18 @@ module Openpix
       # Make API operations on Charge resource
       class Charge < Resource
         ATTRS = %w[
-          correlation_id
+          correlationID
           value
           type
           comment
           identifier
-          expires_in
+          expiresIn
           customer
-          days_for_due_date
-          days_after_due_date
+          daysForDueDate
+          daysAfterDueDate
           interests
           fines
-          additional_info
+          additionalInfo
         ].freeze
 
         attr_accessor(*ATTRS)
@@ -47,11 +47,11 @@ module Openpix
 
           return body if body['customer'].nil? || body['customer'].empty?
 
-          body['customer'] = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['customer'])
+          body['customer'] = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body['customer'])
 
           return body if body['customer']['address'].nil? || body['customer']['address'].empty?
 
-          customer_address_parsed = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['customer']['address'])
+          customer_address_parsed = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body['customer']['address'])
           body['customer'] = body['customer'].merge({ 'address' => customer_address_parsed })
 
           body
@@ -61,9 +61,9 @@ module Openpix
         # @param key [String] the key
         # @param value [String] the value
         def add_additional_info(key, value)
-          @additional_info = [] if @additional_info.nil?
+          @additionalInfo = [] if @additionalInfo.nil?
 
-          @additional_info << { 'key' => key, 'value' => value }
+          @additionalInfo << { 'key' => key, 'value' => value }
         end
 
         # set interests configuration for creating this resource

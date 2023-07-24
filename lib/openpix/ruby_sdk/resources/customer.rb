@@ -12,8 +12,8 @@ module Openpix
           name
           email
           phone
-          tax_id
-          correlation_id
+          taxID
+          correlationID
           address
         ].freeze
 
@@ -38,7 +38,7 @@ module Openpix
 
           return body if body['address'].nil? || body['address'].empty?
 
-          body['address'] = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['address'])
+          body['address'] = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body['address'])
 
           body
         end

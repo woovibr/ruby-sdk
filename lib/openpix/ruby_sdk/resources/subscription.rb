@@ -10,8 +10,9 @@ module Openpix
       class Subscription < Resource
         ATTRS = %w[
           value
-          day_generate_charge
+          dayGenerateCharge
           customer
+          chargeType
         ].freeze
 
         attr_accessor(*ATTRS)
@@ -39,7 +40,7 @@ module Openpix
 
           return body if body['customer'].nil? || body['customer'].empty?
 
-          body['customer'] = Openpix::RubySdk::ApiBodyFormatter.format_entity_param(body['customer'])
+          body['customer'] = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body['customer'])
 
           body
         end

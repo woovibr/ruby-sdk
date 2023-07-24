@@ -12,7 +12,7 @@ module Openpix
           event
           url
           authorization
-          is_active
+          isActive
         ].freeze
 
         attr_accessor(*ATTRS)

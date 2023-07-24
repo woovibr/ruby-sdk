@@ -10,7 +10,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
   savable_params = {
     resource_class: described_class,
     attrs: {
-      'correlation_id' => '123',
+      'correlationID' => '123',
       'value' => 500
     },
     body_response: {
@@ -69,7 +69,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
   let(:customer) { nil }
   let(:attrs) do
     {
-      'correlation_id' => '123',
+      'correlationID' => '123',
       'value' => 500,
       'customer' => customer
     }
@@ -89,7 +89,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     it 'sets the attrs defined by the ATTRS constant' do
       subject.init_body(params: attrs)
 
-      expect(subject.correlation_id).to eq(attrs['correlation_id'])
+      expect(subject.correlationID).to eq(attrs['correlationID'])
       expect(subject.value).to eq(attrs['value'])
       expect(subject.customer).to eq(attrs['customer'])
       expect(subject.comment).to eq(nil)
@@ -102,7 +102,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     context 'without customer' do
       let(:expected_body) do
         {
-          'correlationID' => attrs['correlation_id'],
+          'correlationID' => attrs['correlationID'],
           'value' => attrs['value']
         }
       end
@@ -116,7 +116,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
       let(:customer) { {} }
       let(:expected_body) do
         {
-          'correlationID' => attrs['correlation_id'],
+          'correlationID' => attrs['correlationID'],
           'value' => attrs['value']
         }
       end
@@ -131,7 +131,7 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
       let(:customer) do
         {
           name: 'My Name',
-          tax_id: '44406223412',
+          taxID: '44406223412',
           address: address
         }
       end
@@ -139,11 +139,11 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
       context 'without address' do
         let(:expected_body) do
           {
-            'correlationID' => attrs['correlation_id'],
+            'correlationID' => attrs['correlationID'],
             'value' => attrs['value'],
             'customer' => {
               'name' => customer[:name],
-              'taxID' => customer[:tax_id]
+              'taxID' => customer[:taxID]
             }
           }
         end
@@ -157,11 +157,11 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
         let(:address) { {} }
         let(:expected_body) do
           {
-            'correlationID' => attrs['correlation_id'],
+            'correlationID' => attrs['correlationID'],
             'value' => attrs['value'],
             'customer' => {
               'name' => customer[:name],
-              'taxID' => customer[:tax_id]
+              'taxID' => customer[:taxID]
             }
           }
         end
@@ -182,11 +182,11 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
         end
         let(:expected_body) do
           {
-            'correlationID' => attrs['correlation_id'],
+            'correlationID' => attrs['correlationID'],
             'value' => attrs['value'],
             'customer' => {
               'name' => customer[:name],
-              'taxID' => customer[:tax_id],
+              'taxID' => customer[:taxID],
               'address' => {
                 'country' => address[:country],
                 'zipcode' => address[:zipcode],
@@ -208,11 +208,11 @@ RSpec.describe Openpix::RubySdk::Resources::Charge do
     before { subject.init_body(params: attrs) }
 
     it 'adds a new key value pair to the additional_info request body' do
-      expect(subject.additional_info).to be_nil
+      expect(subject.additionalInfo).to be_nil
 
       subject.add_additional_info('venda', 'shiba blocks toy')
 
-      expect(subject.additional_info).to eq([{ 'key' => 'venda', 'value' => 'shiba blocks toy' }])
+      expect(subject.additionalInfo).to eq([{ 'key' => 'venda', 'value' => 'shiba blocks toy' }])
     end
   end
 

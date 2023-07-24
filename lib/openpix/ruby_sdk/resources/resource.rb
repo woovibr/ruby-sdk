@@ -70,7 +70,7 @@ module Openpix
           body = {}
 
           create_attributes.each do |attr|
-            body[Openpix::RubySdk::ApiBodyFormatter.transform_id_pattern(attr)] = send(attr)
+            body[attr] = send(attr)
           end
 
           compacted_body = Openpix::RubySdk::ApiBodyFormatter.remove_empty_values(body)

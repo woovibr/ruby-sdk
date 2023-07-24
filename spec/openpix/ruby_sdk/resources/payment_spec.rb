@@ -11,8 +11,8 @@ RSpec.describe Openpix::RubySdk::Resources::Payment do
     resource_class: described_class,
     attrs: {
       'value' => 54_005,
-      'correlation_id' => '1234',
-      'source_account_id' => '123'
+      'correlationID' => '1234',
+      'sourceAccountId' => '123'
     },
     body_response: {
       'payment' => {
@@ -64,12 +64,12 @@ RSpec.describe Openpix::RubySdk::Resources::Payment do
 
   it_behaves_like 'not destroyable resource', described_class
 
-  let(:source_account_id) { nil }
+  let(:sourceAccountId) { nil }
   let(:attrs) do
     {
       'value' => 54_005,
-      'correlation_id' => '1234',
-      'source_account_id' => source_account_id
+      'correlationID' => '1234',
+      'sourceAccountId' => sourceAccountId
     }
   end
 
@@ -88,8 +88,8 @@ RSpec.describe Openpix::RubySdk::Resources::Payment do
       subject.init_body(params: attrs)
 
       expect(subject.value).to eq(attrs['value'])
-      expect(subject.correlation_id).to eq(attrs['correlation_id'])
-      expect(subject.source_account_id).to eq(source_account_id)
+      expect(subject.correlationID).to eq(attrs['correlationID'])
+      expect(subject.sourceAccountId).to eq(sourceAccountId)
       expect(subject.comment).to eq(nil)
     end
   end
@@ -97,11 +97,11 @@ RSpec.describe Openpix::RubySdk::Resources::Payment do
   describe '#to_body' do
     before { subject.init_body(params: attrs) }
 
-    context 'without source_account_id' do
+    context 'without sourceAccountId' do
       let(:expected_body) do
         {
           'value' => attrs['value'],
-          'correlationID' => attrs['correlation_id']
+          'correlationID' => attrs['correlationID']
         }
       end
 
@@ -110,17 +110,17 @@ RSpec.describe Openpix::RubySdk::Resources::Payment do
       end
     end
 
-    context 'with source_account_id' do
-      let(:source_account_id) { '123' }
+    context 'with sourceAccountId' do
+      let(:sourceAccountId) { '123' }
       let(:expected_body) do
         {
           'value' => attrs['value'],
-          'correlationID' => attrs['correlation_id'],
-          'sourceAccountId' => attrs['source_account_id']
+          'correlationID' => attrs['correlationID'],
+          'sourceAccountId' => attrs['sourceAccountId']
         }
       end
 
-      it 'parses source_account_id as expected' do
+      it 'parses sourceAccountId as expected' do
         expect(subject.to_body).to eq(expected_body)
       end
     end
