@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.extra_rdoc_files = Dir['README.md', 'CHANGELOG.md']
 
   # Dependencies
-  spec.add_runtime_dependency 'activesupport', '~> 6.1'
+  spec.add_runtime_dependency 'activesupport', '>= 6.1'
   spec.add_runtime_dependency 'faraday', '~> 2.7', '>= 2.7.4'
   spec.add_runtime_dependency 'faraday-httpclient', '~> 2.0', '>= 2.0.1'
 
