@@ -276,7 +276,7 @@ module Openpix
             )
           end
 
-          unless @pagination_meta["has_#{page_orientation}_page".to_sym]
+          unless @pagination_meta[:"has_#{page_orientation}_page"]
             raise(
               PageNotDefinedError,
               "There is no #{page_orientation} page defined for the skip: #{@pagination_params[:skip]} and " \
