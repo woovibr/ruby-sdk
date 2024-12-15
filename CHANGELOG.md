@@ -1,5 +1,14 @@
 ## [Unreleased]
 
+## [2.0.1](https://github.com/woovibr/ruby-sdk/compare/v2.0.0...v2.0.1) (2024-12-15)
+
+
+### Bug Fixes
+
+* adding mutex to gemspec ([ee86789](https://github.com/woovibr/ruby-sdk/commit/ee867896ba7bc262ab202f66a51ed0ce0ade9e1b))
+* make activesupport work with rails 7/8 ([73cfd38](https://github.com/woovibr/ruby-sdk/commit/73cfd387851ccb3bc6bab5fd4ccf682be33689f7))
+* update deps and rspec status ([e3627a6](https://github.com/woovibr/ruby-sdk/commit/e3627a6a60f5d863742be192b545ab1cdc7389cd))
+
 ## [2.0.0](https://github.com/Open-Pix/ruby-sdk/compare/v1.2.0...v2.0.0) (2023-07-24)
 
 
