@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport', '>= 6.1'
   spec.add_dependency 'faraday', '~> 2.7', '>= 2.7.4'
   spec.add_dependency 'faraday-httpclient', '~> 2.0', '>= 2.0.1'
+  spec.add_dependency 'mutex_m'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rack', '~> 3.0'
